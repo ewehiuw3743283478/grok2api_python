@@ -144,6 +144,8 @@ DEFAULT_HEADERS = {
     'Sec-Fetch-Dest': 'empty',
     'Sec-Fetch-Mode': 'cors',
     'Sec-Fetch-Site': 'same-origin',
+    'x-statsig-id': 'gcpWHVLvDUF6jJYYXTU0oZDMw26Llh6MUs880',
+    'x-xai-request-id': 'b1b5ca35-7cac-4970-9011-326c6ffbbd',
     'Baggage': 'sentry-public_key=b311e0f2690c81f25e2c4cf6d4f7ce1c'
 }
 
@@ -502,7 +504,7 @@ class Utils:
                         username, password = auth_part.split(':')
                         proxy_options["proxy_auth"] = (username, password)
             else:
-                proxy_options["proxies"] = {"https": proxy, "http": proxy}     
+                proxy_options["proxies"] = {"https": proxy, "http": proxy}   
         return proxy_options
 
 class GrokApiClient:
@@ -611,25 +613,25 @@ class GrokApiClient:
             logger.error(str(error), "Server")
             return ''
     # def convert_system_messages(self, messages):
-    #     try:
-    #         system_prompt = []
-    #         i = 0
-    #         while i < len(messages):
-    #             if messages[i].get('role') != 'system':
-    #                 break
+    #   try:
+    #       system_prompt = []
+    #       i = 0
+    #       while i < len(messages):
+    #           if messages[i].get('role') != 'system':
+    #               break
 
-    #             system_prompt.append(self.process_message_content(messages[i].get('content')))
-    #             i += 1
+    #           system_prompt.append(self.process_message_content(messages[i].get('content')))
+    #           i += 1
 
-    #         messages = messages[i:]
-    #         system_prompt = '\n'.join(system_prompt)
+    #       messages = messages[i:]
+    #       system_prompt = '\n'.join(system_prompt)
 
-    #         if not messages:
-    #             raise ValueError("没有找到用户或者AI消息")
-    #         return {"system_prompt":system_prompt,"messages":messages}
-    #     except Exception as error:
-    #         logger.error(str(error), "Server")
-    #         raise ValueError(error)
+    #       if not messages:
+    #           raise ValueError("没有找到用户或者AI消息")
+    #       return {"system_prompt":system_prompt,"messages":messages}
+    #   except Exception as error:
+    #       logger.error(str(error), "Server")
+    #       raise ValueError(error)
     def prepare_chat_request(self, request):
         if ((request["model"] == 'grok-2-imageGen' or request["model"] == 'grok-3-imageGen') and
             not CONFIG["API"]["PICGO_KEY"] and not CONFIG["API"]["TUMY_KEY"] and
@@ -717,7 +719,7 @@ class GrokApiClient:
             message_length += len(messages)
             if message_length >= 40000:
                 convert_to_file = True
-               
+                
         if convert_to_file:
             file_id = self.upload_base64_file(messages, request["model"])
             if file_id:
@@ -821,7 +823,7 @@ def process_model_response(response, model):
         elif (response.get("messageStepId") and CONFIG["IS_THINKING"] and response.get("messageTag") == "assistant") or response.get("messageTag") == "final":
             result["token"] = response.get("token","")
         elif (CONFIG["IS_THINKING"] and response.get("token","").get("action","") == "webSearch"):
-            result["token"] = response.get("token","").get("action_input","").get("query","")            
+            result["token"] = response.get("token","").get("action_input","").get("query","")          
         elif (CONFIG["IS_THINKING"] and response.get("webSearchResults")):
             result["token"] = Utils.organize_search_results(response['webSearchResults'])
     elif model == 'grok-3-reasoning':
@@ -1292,7 +1294,7 @@ def chat_completions():
         if response_status_code == 403:
             raise ValueError('IP暂时被封无法破盾，请稍后重试或者更换ip')
         elif response_status_code == 500:
-            raise ValueError('当前模型所有令牌暂无可用，请稍后重试')    
+            raise ValueError('当前模型所有令牌暂无可用，请稍后重试')   
 
     except Exception as error:
         logger.error(str(error), "ChatAPI")
