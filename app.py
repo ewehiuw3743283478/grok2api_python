@@ -145,7 +145,7 @@ DEFAULT_HEADERS = {
     'Sec-Fetch-Mode': 'cors',
     'Sec-Fetch-Site': 'same-origin',
     'x-statsig-id': 'gcpWHVLvDUF6jJYYXTU0oZDMw26Llh6MUs880',
-    'x-xai-request-id': 'b1b5ca35-7cac-4970-9011-326c6ffbbd',
+    'x-xai-request-id': '76294361-2dfa-421c-a67f-98745249b714',
     'Baggage': 'sentry-public_key=b311e0f2690c81f25e2c4cf6d4f7ce1c'
 }
 
